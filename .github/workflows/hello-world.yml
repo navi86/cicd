@@ -34,30 +34,30 @@ jobs:
         run: |
           ls -la
           env
+# this steps is required to have vault instance on github agent
+      # - name: Import Secrets Original
+      #   id: secrets-original
+      #   uses: hashicorp/vault-action@v2.4.2
+      #   with:
+      #     url: https://vault.localhost:8080
+      #     method: approle
+      #     # roleId: ${{ secrets.VAULT_ROLE_ID }}
+      #     # secretId: ${{ secrets.VAULT_SECRET_ID }}
+      #     tlsSkipVerify: true
+      #     secrets: |
+      #       kv/data/github-actions/docker username | docker_username ;
+      #       kv/data/github-actions/docker password | docker_username ;
 
-      - name: Import Secrets Original
-        id: secrets-original
-        uses: hashicorp/vault-action@v2.4.2
-        with:
-          url: https://vault.localhost:8080
-          method: approle
-          # roleId: ${{ secrets.VAULT_ROLE_ID }}
-          # secretId: ${{ secrets.VAULT_SECRET_ID }}
-          tlsSkipVerify: true
-          secrets: |
-            kv/data/github-actions/docker username | docker_username ;
-            kv/data/github-actions/docker password | docker_username ;
-
-      - name: Import Secrets Custom
-        if: always()
-        id: secrets-custom
-        uses: ./
-        with:
-          url: https://vault.localhost:8080
-          method: approle
-          # roleId: ${{ secrets.VAULT_ROLE_ID }}
-          # secretId: ${{ secrets.VAULT_SECRET_ID }}
-          tlsSkipVerify: true
-          secrets: |
-            kv/data/github-actions/docker username | docker_username ;
-            kv/data/github-actions/docker password | docker_username ;
+      # - name: Import Secrets Custom
+      #   if: always()
+      #   id: secrets-custom
+      #   uses: ./
+      #   with:
+      #     url: https://vault.localhost:8080
+      #     method: approle
+      #     # roleId: ${{ secrets.VAULT_ROLE_ID }}
+      #     # secretId: ${{ secrets.VAULT_SECRET_ID }}
+      #     tlsSkipVerify: true
+      #     secrets: |
+      #       kv/data/github-actions/docker username | docker_username ;
+      #       kv/data/github-actions/docker password | docker_username ;
