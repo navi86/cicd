@@ -9,6 +9,8 @@ on:
     branches:
       - main
 
+
+
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -20,10 +22,42 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # # Runs a single command using the runners shell
+      # - name: Run a one-line script
+      #   run: echo Hello, world!
 
-      # Runs docker hello-world
-      - name: Hello from Docker
-        run: docker run hello-world
+      # # Runs docker hello-world
+      # - name: Hello from Docker
+      #   run: docker run hello-world
+
+      - name: print env variables
+        run: |
+          ls -la
+          env
+# this steps is required to have vault instance on github agent
+      # - name: Import Secrets Original
+      #   id: secrets-original
+      #   uses: hashicorp/vault-action@v2.4.2
+      #   with:
+      #     url: https://vault.localhost:8080
+      #     method: approle
+      #     # roleId: ${{ secrets.VAULT_ROLE_ID }}
+      #     # secretId: ${{ secrets.VAULT_SECRET_ID }}
+      #     tlsSkipVerify: true
+      #     secrets: |
+      #       kv/data/github-actions/docker username | docker_username ;
+      #       kv/data/github-actions/docker password | docker_username ;
+
+      # - name: Import Secrets Custom
+      #   if: always()
+      #   id: secrets-custom
+      #   uses: ./
+      #   with:
+      #     url: https://vault.localhost:8080
+      #     method: approle
+      #     # roleId: ${{ secrets.VAULT_ROLE_ID }}
+      #     # secretId: ${{ secrets.VAULT_SECRET_ID }}
+      #     tlsSkipVerify: true
+      #     secrets: |
+      #       kv/data/github-actions/docker username | docker_username ;
+      #       kv/data/github-actions/docker password | docker_username ;
