@@ -1,0 +1,22 @@
+name: Promote
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_prefix:
+        description: 'Tag prefix'
+        required: true
+        type: string
+        default: 'staging'
+      code_reference:
+        description: 'Reference to the code that should be promoted'
+        required: true
+        type: string
+
+jobs:
+  promote:
+    uses: navi86/github_workflows/.github/workflows/tagging.yml@main@tag
+    with:
+      tag_prefix: ${{ inputs.tag_prefix }}
+      code_reference: ${{ inputs.code_reference }}
+    secrets: inherit
