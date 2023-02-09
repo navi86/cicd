@@ -1,0 +1,11 @@
+name: 'CI'
+
+on: [push]
+
+jobs:
+  check:
+    uses: ./.github/workflows/check.yml
+
+  build-test:
+    uses: navi86/github_workflows/.github/workflows/build.yml@main
+    # uses: ./.github/workflows/build.yml
