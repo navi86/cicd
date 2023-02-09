@@ -15,7 +15,7 @@ on:
 
 jobs:
   promote:
-    uses: navi86/github_workflows/.github/workflows/tagging.yml@main@tag
+    uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
     with:
       tag_prefix: ${{ inputs.tag_prefix }}
       code_reference: ${{ inputs.code_reference }}
