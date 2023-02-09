@@ -8,7 +8,6 @@ on:
 
 jobs:
   set_status:
-    runs-on: [self-hosted, default]
     permissions:
       statuses: write 
     steps:
