@@ -6,6 +6,18 @@ jobs:
   check:
     uses: ./.github/workflows/check.yml
 
-  build-test:
-    uses: navi86/github_workflows/.github/workflows/build.yml@main
+  # build-test:
+  #   uses: navi86/github_workflows/.github/workflows/build.yml@main
     # uses: ./.github/workflows/build.yml
+
+  tag_staging:
+    if: ${{ github.ref == 'refs/heads/master' }}
+    uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
+    secrets: inherit
+  
+  # error:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: fail
+  #       run: |
+  #         exit 1
