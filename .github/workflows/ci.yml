@@ -11,7 +11,7 @@ jobs:
     # uses: ./.github/workflows/build.yml
 
   tag_staging:
-    # if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
     secrets: inherit
   
