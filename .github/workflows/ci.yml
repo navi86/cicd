@@ -14,9 +14,9 @@ jobs:
     # if: ${{ github.ref == 'refs/heads/master' }}
     uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
   
-  error:
-    runs-on: ubuntu-latest
-    steps:
-      - name: fail
-        run: |
-          exit 1
+  # error:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: fail
+  #       run: |
+  #         exit 1
