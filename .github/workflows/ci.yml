@@ -1,23 +1,82 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - '**'
+
+concurrency:
+   group: ${{ github.workflow }}-${{ github.ref }}
+   cancel-in-progress: ${{ (github.ref != format('refs/heads/{0}', github.event.repository.default_branch)) }}
 
 jobs:
-  check:
-    uses: ./.github/workflows/check.yml
+  # check:
+  #   uses: ./.github/workflows/check.yml
 
   # build-test:
   #   uses: navi86/github_workflows/.github/workflows/build.yml@main
     # uses: ./.github/workflows/build.yml
 
-  tag_staging:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
-    secrets: inherit
-  
-  # error:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: fail
-  #       run: |
-  #         exit 1
+  # tag_staging:
+  #   if: ${{ github.ref == 'refs/heads/main' }}
+  #   uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
+  #   secrets: inherit
+  generate_cache:
+    runs-on: ubuntu-latest
+    container: 
+      image: node:14
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Prepare folders
+      run: |
+        mkdir -p "folder1"
+        mkdir -p "folder2"
+        echo "folder1" > "folder1/example_file"
+        echo "folder2" > "folder2/example_file"
+        pwd
+        ls -la
+
+    - name: Cache chart folder
+      uses: actions/cache@v3.3.1
+      with:
+        path: |
+          folder1
+          folder2
+        key: test
+        enableCrossOsArchive: true
+    
+    - name: check
+      run: |
+        ls -la
+        pwd
+
+  use_cache:
+    needs: generate_cache
+    runs-on: ubuntu-latest
+    # container: 
+    #   image: node:14
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: check fs
+      run: |
+       ls -la
+       pwd
+
+    - name: Cache chart folder
+      uses: actions/cache@v3.3.1
+      with:
+        path: |
+          folder1
+          folder2
+        key: test
+        enableCrossOsArchive: true
+        fail-on-cache-miss: true
+
+    - name:
+      run: |
+        pwd
+        ls -la
+        ls -la folder1
+        ls -la folder2
