@@ -1,6 +1,12 @@
 name: CI
 
-on: [push]
+# on: [push]
+on:
+  push:
+    tags:
+      - test-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\.[0-9]
+      # - test*
+
 
 jobs:
   check:
@@ -10,10 +16,10 @@ jobs:
   #   uses: navi86/github_workflows/.github/workflows/build.yml@main
     # uses: ./.github/workflows/build.yml
 
-  tag_staging:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
-    secrets: inherit
+  # tag_staging:
+  #   if: ${{ github.ref == 'refs/heads/main' }}
+  #   uses: navi86/github_workflows/.github/workflows/tagging.yml@tag
+  #   secrets: inherit
   
   # error:
   #   runs-on: ubuntu-latest
